@@ -1,3 +1,0 @@
-<?php //Symfony%255CComponent%255CSecurity%255CCsrf%255CCsrfToken
-
-return [PHP_INT_MAX, []];

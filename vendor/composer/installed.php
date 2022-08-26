@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => '__root__',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '1edf93bc1b66a9e8ef1a60c1e208c356d7d06c1c',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         '__root__' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '1edf93bc1b66a9e8ef1a60c1e208c356d7d06c1c',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -536,6 +536,15 @@
             'install_path' => __DIR__ . '/../symfony/maker-bundle',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'symfony/messenger' => array(
+            'pretty_version' => 'v6.1.3',
+            'version' => '6.1.3.0',
+            'reference' => '8d36b2447ed50a92a21f031bc6d3a3fefbe73bf3',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../symfony/messenger',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'symfony/options-resolver' => array(
             'pretty_version' => 'v6.1.0',

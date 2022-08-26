@@ -69,7 +69,7 @@ class UserController extends AbstractController
 
         $userRepository->add($user, true);
 
-        return $this->json($user, 202);
+        return $this->json($user, 201);
     }
 
     #[Route('/{id}', name: 'app_user_delete', methods: ["DELETE"])]
@@ -77,6 +77,6 @@ class UserController extends AbstractController
     {
         $userRepository->remove($user);
 
-        return new JsonResponse(null, 200);
+        return new JsonResponse(null, 202);
     }
 }

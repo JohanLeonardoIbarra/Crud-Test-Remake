@@ -4,8 +4,12 @@
 
 return [
     '_preview_error' => [['code', '_format'], ['_controller' => 'error_controller::preview', '_format' => 'html'], ['code' => '\\d+'], [['variable', '.', '[^/]++', '_format', true], ['variable', '/', '\\d+', 'code', true], ['text', '/_error']], [], [], []],
-    'app_user_list' => [[], ['_controller' => 'App\\Controller\\UserController::index'], [], [['text', '/user/']], [], [], []],
-    'app_user_find' => [['id'], ['_controller' => 'App\\Controller\\UserController::find'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/user/list']], [], [], []],
+    'app_order_list' => [[], ['_controller' => 'App\\Controller\\OrderController::index'], [], [['text', '/order/list']], [], [], []],
+    'app_order_fin' => [['email'], ['_controller' => 'App\\Controller\\OrderController::find'], [], [['variable', '/', '[^/]++', 'email', true], ['text', '/order']], [], [], []],
+    'app_order_new' => [[], ['_controller' => 'App\\Controller\\OrderController::new'], [], [['text', '/order/new']], [], [], []],
+    'app_order_edit' => [['id'], ['_controller' => 'App\\Controller\\OrderController::edit'], [], [['text', '/edit'], ['variable', '/', '[^/]++', 'id', true], ['text', '/order']], [], [], []],
+    'app_user_list' => [[], ['_controller' => 'App\\Controller\\UserController::index'], [], [['text', '/user/list']], [], [], []],
+    'app_user_find' => [['id'], ['_controller' => 'App\\Controller\\UserController::find'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/user']], [], [], []],
     'app_user_create' => [[], ['_controller' => 'App\\Controller\\UserController::new'], [], [['text', '/user/new']], [], [], []],
     'app_user_edit' => [['id'], ['_controller' => 'App\\Controller\\UserController::edit'], [], [['text', '/edit'], ['variable', '/', '[^/]++', 'id', true], ['text', '/user']], [], [], []],
     'app_user_delete' => [['id'], ['_controller' => 'App\\Controller\\UserController::delete'], [], [['variable', '/', '[^/]++', 'id', true], ['text', '/user']], [], [], []],

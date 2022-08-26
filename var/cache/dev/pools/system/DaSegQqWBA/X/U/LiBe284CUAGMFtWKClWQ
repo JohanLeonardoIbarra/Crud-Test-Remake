@@ -1,3 +1,0 @@
-<?php //Symfony%255CComponent%255CValidator%255CConstraints%255CChoice%2524maxMessage
-
-return [PHP_INT_MAX, []];

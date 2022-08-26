@@ -18,25 +18,25 @@ class User
     #[ORM\Column]
     private ?int $id;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Regex('/\d/', 'Your name cannot contain a number', null, false)]
     private ?string $name;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: false)]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Regex('/\d/', 'Your surname cannot contain a number', null, false)]
     private ?string $surname;
 
-    #[ORM\Column(length: 255, unique: true)]
+    #[ORM\Column(length: 255, unique: true, nullable: false)]
     #[Assert\Email]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     private ?string $email;
 
-    #[ORM\Column(length: 255, columnDefinition: "ENUM('Man', 'Woman')")]
+    #[ORM\Column(type: "string", length: 255, columnDefinition: "ENUM('Man', 'Woman')")]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Choice(['Man', 'Woman'])]
