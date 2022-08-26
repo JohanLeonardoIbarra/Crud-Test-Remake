@@ -4,7 +4,8 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraint as Assert;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[Assert\UniqueEntity('email')]
@@ -17,34 +18,27 @@ class User
 
     #[ORM\Column(length: 255)]
     #[Assert\NotBlank]
-    #[Assert\Regex(pattern: '/\d/', match: false, message: 'Your name cannot contain a number',)]
+    #[Assert\NotNull]
+    #[Assert\Regex('/\d/', 'Your name cannot contain a number', null, false)]
     private ?string $name;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Regex(pattern: '/\d/', match: false, message: 'Your surname cannot contain a number',)]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
+    #[Assert\Regex('/\d/', 'Your surname cannot contain a number', null, false)]
     private ?string $surname;
 
     #[ORM\Column(length: 255)]
     #[Assert\Email]
+    #[Assert\NotNull]
+    #[Assert\NotBlank]
     private ?string $email;
 
     #[ORM\Column(length: 255, columnDefinition: "Enum('Man', 'Woman')")]
+    #[Assert\NotBlank]
+    #[Assert\NotNull]
     #[Assert\Choice(['Man', 'Woman'])]
     private ?string $sex;
-
-    /**
-     * @param string|null $name
-     * @param string|null $surname
-     * @param string|null $email
-     * @param string|null $sex
-     */
-    public function __construct(?string $name, ?string $surname, ?string $email, ?string $sex)
-    {
-        $this->name = $name;
-        $this->surname = $surname;
-        $this->email = $email;
-        $this->sex = $sex;
-    }
 
     public function getId(): ?int
     {

@@ -1,0 +1,3 @@
+<?php //%5BC%5DSymfony%255CComponent%255CSecurity%255CCsrf%255CCsrfToken%2523getValue
+
+return [PHP_INT_MAX, 1661541445];

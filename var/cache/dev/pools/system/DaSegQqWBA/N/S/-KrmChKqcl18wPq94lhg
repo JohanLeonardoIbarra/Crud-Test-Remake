@@ -1,0 +1,3 @@
+<?php //%5BC%5DSymfony%255CComponent%255CValidator%255CConstraintViolation%2524messageTemplate
+
+return [PHP_INT_MAX, 1661541658];

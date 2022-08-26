@@ -9,11 +9,12 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/user')]
 class UserController extends AbstractController
 {
-    #[Route('/', name: 'app_user_list', methods: ["GET"])]
+    #[Route('/list', name: 'app_user_list', methods: ["GET"])]
     public function index(UserRepository $userRepository): JsonResponse
     {
         $users = $userRepository->findAll();
@@ -21,8 +22,8 @@ class UserController extends AbstractController
         return $this->json($users);
     }
 
-    #[Route('/list/{id}', name: 'app_user_find', methods: ["GET"])]
-    public function find(User $user = null)
+    #[Route('/{id}', name: 'app_user_find', methods: ["GET"])]
+    public function find(User $user = null): JsonResponse
     {
         if (!$user) {
             return $this->json([], 404);
@@ -38,7 +39,7 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->submit($request->toArray());
         if (!$form->isValid()) {
-            return $this->json($form->getErrors(), 400);
+            return $this->json($form->getErrors(true), 400);
         }
 
         $userRepository->add($user, true);
