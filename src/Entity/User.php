@@ -38,7 +38,7 @@ class User
      * @param string|null $email
      * @param string|null $sex
      */
-    public function __construct(?string $name, ?string $surname, ?string $email , ?string $sex)
+    public function __construct(?string $name, ?string $surname, ?string $email, ?string $sex)
     {
         $this->name = $name;
         $this->surname = $surname;

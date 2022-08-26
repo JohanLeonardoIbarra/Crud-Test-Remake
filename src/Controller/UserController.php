@@ -8,7 +8,6 @@ use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/user')]
@@ -23,7 +22,8 @@ class UserController extends AbstractController
     }
 
     #[Route('/list/{id}', name: 'app_user_find', methods: ["GET"])]
-    public function find(User $user = null){
+    public function find(User $user = null)
+    {
         if (!$user) {
             return $this->json([], 404);
         }
@@ -47,7 +47,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ["PUT"])]
-    public function edit(User $user ,UserRepository $userRepository, Request $request): JsonResponse
+    public function edit(User $user, UserRepository $userRepository, Request $request): JsonResponse
     {
         $form = $this->createForm(UserType::class, $user);
         $form->submit($request->toArray());
@@ -64,6 +64,7 @@ class UserController extends AbstractController
     public function delete(User $user, UserRepository $userRepository): JsonResponse
     {
         $userRepository->remove($user);
+
         return new JsonResponse(null, 200);
     }
 }
