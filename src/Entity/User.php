@@ -4,11 +4,13 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[Assert\UniqueEntity('email')]
+#[UniqueEntity('email', message: 'This email is already taken')]
 class User
 {
     #[ORM\Id]
@@ -28,13 +30,13 @@ class User
     #[Assert\Regex('/\d/', 'Your surname cannot contain a number', null, false)]
     private ?string $surname;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, unique: true)]
     #[Assert\Email]
     #[Assert\NotNull]
     #[Assert\NotBlank]
     private ?string $email;
 
-    #[ORM\Column(length: 255, columnDefinition: "Enum('Man', 'Woman')")]
+    #[ORM\Column(length: 255, columnDefinition: "ENUM('Man', 'Woman')")]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Choice(['Man', 'Woman'])]
@@ -81,6 +83,7 @@ class User
         return $this;
     }
 
+    #[Ignore]
     public function getSex(): ?string
     {
         return $this->sex;
@@ -91,5 +94,18 @@ class User
         $this->sex = $sex;
 
         return $this;
+    }
+
+    #[SerializedName("sex")]
+    public function getDetailSex(): string
+    {
+        return ($this->sex == "Man")? "I'm a Man": "I'm a Woman";
+    }
+
+    #[Ignore]
+    #[SerializedName("fullName")]
+    public function getFullName():string
+    {
+        return $this->name." ".$this->surname;
     }
 }

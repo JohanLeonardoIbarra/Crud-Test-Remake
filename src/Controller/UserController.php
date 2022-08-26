@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/user')]
@@ -29,7 +30,7 @@ class UserController extends AbstractController
             return $this->json([], 404);
         }
 
-        return $this->json($user);
+        return $this->json($user, context: [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true]);
     }
 
     #[Route('/new', name: 'app_user_create', methods: ["POST"])]
@@ -39,7 +40,12 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->submit($request->toArray());
         if (!$form->isValid()) {
-            return $this->json($form->getErrors(true), 400);
+            $errors = $form->getErrors(true);
+            $msg = [];
+            foreach ($errors as $error) {
+                $msg[] = $error->getMessage();
+            }
+            return $this->json(["Errors" => $msg], 400);
         }
 
         $userRepository->add($user, true);
@@ -53,7 +59,12 @@ class UserController extends AbstractController
         $form = $this->createForm(UserType::class, $user);
         $form->submit($request->toArray());
         if (!$form->isValid()) {
-            return $this->json($form->getErrors(), 400);
+            $errors = $form->getErrors(true);
+            $msg = [];
+            foreach ($errors as $error) {
+                $msg[] = $error->getMessage();
+            }
+            return $this->json(["Errors" => $msg], 400);
         }
 
         $userRepository->add($user, true);
