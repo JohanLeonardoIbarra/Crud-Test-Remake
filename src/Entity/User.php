@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -22,18 +23,21 @@ class User
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Regex('/\d/', 'Your name cannot contain a number', null, false)]
+    #[Groups(['listUsers', 'showUsers'])]
     private ?string $name;
 
     #[ORM\Column(length: 255, nullable: false)]
     #[Assert\NotBlank]
     #[Assert\NotNull]
     #[Assert\Regex('/\d/', 'Your surname cannot contain a number', null, false)]
+    #[Groups(['listUsers', 'showUsers'])]
     private ?string $surname;
 
     #[ORM\Column(length: 255, unique: true, nullable: false)]
     #[Assert\Email]
     #[Assert\NotNull]
     #[Assert\NotBlank]
+    #[Groups(['listUsers', 'showUsers'])]
     private ?string $email;
 
     #[ORM\Column(type: "string", length: 255, columnDefinition: "ENUM('Man', 'Woman')")]
@@ -97,13 +101,13 @@ class User
     }
 
     #[SerializedName("sex")]
+    #[Groups(['listUsers', 'showUsers'])]
     public function getDetailSex(): string
     {
         return ($this->sex == "Man")? "I'm a Man": "I'm a Woman";
     }
 
-    #[Ignore]
-    #[SerializedName("fullName")]
+    #[Groups(['showUsers'])]
     public function getFullName():string
     {
         return $this->name." ".$this->surname;

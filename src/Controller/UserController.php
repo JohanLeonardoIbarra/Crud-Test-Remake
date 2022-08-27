@@ -9,8 +9,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\Context\Normalizer\ObjectNormalizerContextBuilder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
-use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -18,19 +18,21 @@ class UserController extends AbstractController
     #[Route('/list', name: 'app_user_list', methods: ["GET"])]
     public function index(UserRepository $userRepository): JsonResponse
     {
+        $context = (new ObjectNormalizerContextBuilder())->withGroups('listUsers')->toArray();
         $users = $userRepository->findAll();
 
-        return $this->json($users);
+        return $this->json($users, context: $context);
     }
 
     #[Route('/{id}', name: 'app_user_find', methods: ["GET"])]
     public function find(User $user = null): JsonResponse
     {
+        $context = (new ObjectNormalizerContextBuilder())->withGroups('showUsers')->toArray();
         if (!$user) {
-            return $this->json([], 404);
+            return $this->json(null, 404);
         }
 
-        return $this->json($user, context: [AbstractNormalizer::ALLOW_EXTRA_ATTRIBUTES => true]);
+        return $this->json($user, context: $context);
     }
 
     #[Route('/new', name: 'app_user_create', methods: ["POST"])]
@@ -45,12 +47,13 @@ class UserController extends AbstractController
             foreach ($errors as $error) {
                 $msg[] = $error->getMessage();
             }
-            return $this->json(["Errors" => $msg], 400);
+            return $this->json(["errors" => $msg], 400);
         }
 
         $userRepository->add($user, true);
+        $context = (new ObjectNormalizerContextBuilder())->withGroups('listUsers')->toArray();
 
-        return $this->json($user);
+        return $this->json($user, context: $context);
     }
 
     #[Route('/{id}/edit', name: 'app_user_edit', methods: ["PUT"])]
@@ -68,15 +71,19 @@ class UserController extends AbstractController
         }
 
         $userRepository->add($user, true);
+        $context = (new ObjectNormalizerContextBuilder())->withGroups('listUsers')->toArray();
 
-        return $this->json($user, 201);
+        return $this->json($user, 201, $context);
     }
 
     #[Route('/{id}', name: 'app_user_delete', methods: ["DELETE"])]
-    public function delete(User $user, UserRepository $userRepository): JsonResponse
+    public function delete(User $user = null, UserRepository $userRepository): JsonResponse
     {
+        if (!$user){
+            return $this->json(null, 404);
+        }
         $userRepository->remove($user);
 
-        return new JsonResponse(null, 202);
+        return new JsonResponse(null);
     }
 }

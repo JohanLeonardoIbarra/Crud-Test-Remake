@@ -1383,14 +1383,6 @@
         <argument>200</argument>
       </call>
       <call method="addListener">
-        <argument>Symfony\Component\Messenger\Event\WorkerRunningEvent</argument>
-        <argument type="collection">
-          <argument type="service_closure" id="messenger.listener.dispatch_pcntl_signal_listener"/>
-          <argument>onWorkerRunning</argument>
-        </argument>
-        <argument>100</argument>
-      </call>
-      <call method="addListener">
         <argument>Symfony\Component\Messenger\Event\WorkerStartedEvent</argument>
         <argument type="collection">
           <argument type="service_closure" id="messenger.listener.stop_worker_on_restart_signal_listener"/>
@@ -1405,14 +1397,6 @@
           <argument>onWorkerRunning</argument>
         </argument>
         <argument>0</argument>
-      </call>
-      <call method="addListener">
-        <argument>Symfony\Component\Messenger\Event\WorkerStartedEvent</argument>
-        <argument type="collection">
-          <argument type="service_closure" id="messenger.listener.stop_worker_on_sigterm_signal_listener"/>
-          <argument>onWorkerStarted</argument>
-        </argument>
-        <argument>100</argument>
       </call>
       <call method="addListener">
         <argument>Symfony\Component\Messenger\Event\WorkerMessageFailedEvent</argument>
@@ -3638,15 +3622,14 @@
         </argument>
       </argument>
     </service>
-    <service id="doctrine_mongodb.odm.default_annotation_metadata_driver" class="Doctrine\ODM\MongoDB\Mapping\Driver\AnnotationDriver">
-      <argument type="service" id="annotations.cached_reader"/>
+    <service id="doctrine_mongodb.odm.default_attribute_metadata_driver" class="Doctrine\ODM\MongoDB\Mapping\Driver\AttributeDriver">
       <argument type="collection">
         <argument>/var/www/src/Document</argument>
       </argument>
     </service>
     <service id="doctrine_mongodb.odm.default_metadata_driver" class="Doctrine\Persistence\Mapping\Driver\MappingDriverChain">
       <call method="addDriver">
-        <argument type="service" id="doctrine_mongodb.odm.default_annotation_metadata_driver"/>
+        <argument type="service" id="doctrine_mongodb.odm.default_attribute_metadata_driver"/>
         <argument>App\Document</argument>
       </call>
     </service>
@@ -4012,15 +3995,23 @@
         <argument key="documentManager" type="service_closure" id="doctrine_mongodb.odm.default_document_manager"/>
       </argument>
     </service>
-    <service id=".service_locator.FjVpLqc" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.TRKRLFK" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
         <argument key="documentManager" type="service_closure" id="doctrine_mongodb.odm.default_document_manager"/>
       </argument>
     </service>
-    <service id=".service_locator.GmIJtcF" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.PlpATmb" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
+        <argument key="documentManager" type="service_closure" id="doctrine_mongodb.odm.default_document_manager"/>
+        <argument key="order" type="service_closure" id="App\Document\Order" on-invalid="ignore"/>
+      </argument>
+    </service>
+    <service id=".service_locator.Xe60xz3" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="documentManager" type="service_closure" id="doctrine_mongodb.odm.default_document_manager"/>
         <argument key="order" type="service_closure" id="App\Document\Order"/>
       </argument>
     </service>
@@ -4041,14 +4032,21 @@
         <argument key="userRepository" type="service_closure" id="App\Repository\UserRepository"/>
       </argument>
     </service>
-    <service id=".service_locator.pD0NixB" class="Symfony\Component\DependencyInjection\ServiceLocator">
+    <service id=".service_locator.ol3LFVu" class="Symfony\Component\DependencyInjection\ServiceLocator">
       <tag name="container.service_locator"/>
       <argument type="collection">
-        <argument key="App\Controller\OrderController::edit" type="service_closure" id=".service_locator.GmIJtcF"/>
-        <argument key="App\Controller\OrderController::find" type="service_closure" id=".service_locator.FjVpLqc"/>
+        <argument key="userRepository" type="service_closure" id="App\Repository\UserRepository"/>
+      </argument>
+    </service>
+    <service id=".service_locator.XM29e1p" class="Symfony\Component\DependencyInjection\ServiceLocator">
+      <tag name="container.service_locator"/>
+      <argument type="collection">
+        <argument key="App\Controller\OrderController::delete" type="service_closure" id=".service_locator.Xe60xz3"/>
+        <argument key="App\Controller\OrderController::edit" type="service_closure" id=".service_locator.PlpATmb"/>
+        <argument key="App\Controller\OrderController::find" type="service_closure" id=".service_locator.TRKRLFK"/>
         <argument key="App\Controller\OrderController::index" type="service_closure" id=".service_locator.0Li1Ifw"/>
-        <argument key="App\Controller\OrderController::new" type="service_closure" id=".service_locator.0Li1Ifw"/>
-        <argument key="App\Controller\UserController::delete" type="service_closure" id=".service_locator.9uW928t"/>
+        <argument key="App\Controller\OrderController::new" type="service_closure" id=".service_locator.TRKRLFK"/>
+        <argument key="App\Controller\UserController::delete" type="service_closure" id=".service_locator.ol3LFVu"/>
         <argument key="App\Controller\UserController::edit" type="service_closure" id=".service_locator.9uW928t"/>
         <argument key="App\Controller\UserController::index" type="service_closure" id=".service_locator.Q1F27w5"/>
         <argument key="App\Controller\UserController::new" type="service_closure" id=".service_locator.Q1F27w5"/>
@@ -4058,11 +4056,12 @@
         <argument key="kernel::loadRoutes" type="service_closure" id=".service_locator.xUrKPVU"/>
         <argument key="kernel::registerContainerConfiguration" type="service_closure" id=".service_locator.xUrKPVU"/>
         <argument key="kernel::terminate" type="service_closure" id=".service_locator.bRdave9"/>
-        <argument key="App\Controller\OrderController:edit" type="service_closure" id=".service_locator.GmIJtcF"/>
-        <argument key="App\Controller\OrderController:find" type="service_closure" id=".service_locator.FjVpLqc"/>
+        <argument key="App\Controller\OrderController:delete" type="service_closure" id=".service_locator.Xe60xz3"/>
+        <argument key="App\Controller\OrderController:edit" type="service_closure" id=".service_locator.PlpATmb"/>
+        <argument key="App\Controller\OrderController:find" type="service_closure" id=".service_locator.TRKRLFK"/>
         <argument key="App\Controller\OrderController:index" type="service_closure" id=".service_locator.0Li1Ifw"/>
-        <argument key="App\Controller\OrderController:new" type="service_closure" id=".service_locator.0Li1Ifw"/>
-        <argument key="App\Controller\UserController:delete" type="service_closure" id=".service_locator.9uW928t"/>
+        <argument key="App\Controller\OrderController:new" type="service_closure" id=".service_locator.TRKRLFK"/>
+        <argument key="App\Controller\UserController:delete" type="service_closure" id=".service_locator.ol3LFVu"/>
         <argument key="App\Controller\UserController:edit" type="service_closure" id=".service_locator.9uW928t"/>
         <argument key="App\Controller\UserController:index" type="service_closure" id=".service_locator.Q1F27w5"/>
         <argument key="App\Controller\UserController:new" type="service_closure" id=".service_locator.Q1F27w5"/>
@@ -4335,12 +4334,12 @@
     <service id="debug.argument_resolver.request.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\RequestValueResolver"/>
     <service id="debug.argument_resolver.session.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\SessionValueResolver"/>
     <service id="debug.argument_resolver.service.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\ServiceValueResolver">
-      <argument type="service" id=".service_locator.pD0NixB"/>
+      <argument type="service" id=".service_locator.XM29e1p"/>
     </service>
     <service id="debug.argument_resolver.default.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\DefaultValueResolver"/>
     <service id="debug.argument_resolver.variadic.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\VariadicValueResolver"/>
     <service id="debug.argument_resolver.not_tagged_controller.inner" class="Symfony\Component\HttpKernel\Controller\ArgumentResolver\NotTaggedControllerValueResolver">
-      <argument type="service" id=".service_locator.pD0NixB"/>
+      <argument type="service" id=".service_locator.XM29e1p"/>
     </service>
     <service id=".doctrine.orm.default_metadata_driver.inner" class="Doctrine\Persistence\Mapping\Driver\MappingDriverChain">
       <call method="addDriver">
@@ -5058,13 +5057,15 @@
     <service id="doctrine_mongodb.odm.event_manager" alias="doctrine_mongodb.odm.default_connection.event_manager"/>
     <service id="container.env_var_processors_locator" alias=".service_locator.gSv9zYw" public="true"/>
     <service id="twig.loader.filesystem" alias="twig.loader.native_filesystem"/>
-    <service id="argument_resolver.controller_locator" alias=".service_locator.pD0NixB"/>
+    <service id="argument_resolver.controller_locator" alias=".service_locator.XM29e1p"/>
     <service id="doctrine.id_generator_locator" alias=".service_locator.KLVvNIq"/>
     <service id="twig.loader" alias="twig.loader.native_filesystem"/>
     <service id="Psr\Log\LoggerInterface" alias="logger"/>
     <service id=".service_locator.0GV1BZZ" alias=".service_locator.gSv9zYw"/>
-    <service id=".service_locator.VwPmm4N" alias=".service_locator.FjVpLqc"/>
-    <service id=".service_locator.zSGD1sk" alias=".service_locator.pD0NixB"/>
+    <service id=".service_locator.Mhg0ojF" alias=".service_locator.TRKRLFK"/>
+    <service id=".service_locator.yuMDelb" alias=".service_locator.PlpATmb"/>
+    <service id=".service_locator.uB9WIhA" alias=".service_locator.Xe60xz3"/>
+    <service id=".service_locator.qPPb84." alias=".service_locator.XM29e1p"/>
     <service id=".service_locator.CBB_zRA" alias=".service_locator.EU6ZLHl"/>
     <service id=".service_locator.2WwcPr4" alias=".service_locator.c33B.5d"/>
     <service id=".service_locator.XW18Svm" alias=".service_locator.TcKhdzh"/>
@@ -5088,10 +5089,12 @@
     <service id=".service_locator.FatRZu2" alias=".service_locator.bRdave9"/>
     <service id=".service_locator.uo5c0SP" alias=".service_locator.xUrKPVU"/>
     <service id=".service_locator.gwqhtWK" alias=".service_locator.0Li1Ifw"/>
-    <service id=".service_locator.Q5uPQmC" alias=".service_locator.FjVpLqc"/>
-    <service id=".service_locator.lb2qC6K" alias=".service_locator.GmIJtcF"/>
+    <service id=".service_locator.W0Us2vk" alias=".service_locator.TRKRLFK"/>
+    <service id=".service_locator.xuKJyOn" alias=".service_locator.PlpATmb"/>
+    <service id=".service_locator.ke1HN9Y" alias=".service_locator.Xe60xz3"/>
     <service id=".service_locator.HO7.gFw" alias=".service_locator.Q1F27w5"/>
     <service id=".service_locator.S89QQxH" alias=".service_locator.9uW928t"/>
+    <service id=".service_locator.P3BSQNQ" alias=".service_locator.ol3LFVu"/>
     <service id=".service_locator.UMFtLOO" alias=".service_locator.jIxfAsi"/>
     <service id=".service_locator.u6DWx23" alias=".service_locator.cXsfP3P"/>
   </services>

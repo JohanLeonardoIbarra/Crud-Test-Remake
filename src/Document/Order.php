@@ -36,7 +36,7 @@ class Order
      * @param string $productName
      * @return Order
      */
-    public function setProductName(string $productName): Order
+    public function setProductName(string $productName): static
     {
         $this->productName = $productName;
         return $this;
@@ -54,7 +54,7 @@ class Order
      * @param int $userId
      * @return Order
      */
-    public function setUserId(int $userId): Order
+    public function setUserId(int $userId): static
     {
         $this->userId = $userId;
         return $this;
@@ -72,7 +72,7 @@ class Order
      * @param int $quantity
      * @return Order
      */
-    public function setQuantity(int $quantity): Order
+    public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
         return $this;
@@ -90,7 +90,7 @@ class Order
      * @param float $unitPrice
      * @return Order
      */
-    public function setUnitPrice(float $unitPrice): Order
+    public function setUnitPrice(float $unitPrice): static
     {
         $this->unitPrice = $unitPrice;
         return $this;

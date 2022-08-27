@@ -13,7 +13,6 @@ class OrderType extends AbstractType
     {
         $builder
             ->add('productName')
-            ->add('userId')
             ->add('quantity')
             ->add('unitPrice')
         ;

@@ -1,0 +1,3 @@
+<?php //RuntimeException
+
+return [PHP_INT_MAX, []];
